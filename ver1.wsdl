@@ -1,0 +1,204 @@
+        <!--
+
+        anton shinkarenko
+        2018-02-01
+        Allows you to manage the phonebook by SOAP protocol
+
+        Online WSDL 1.1 SOAP generator 0.2
+        Julien Blitte
+
+        -->
+<definitions xmlns:tns="test.soap.phone_book.wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="test.soap.phone_book.xsd" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="Allows you to manage the phonebook by SOAP protocol" targetNamespace="test.soap.phone_book.wsdl">
+    <!--  definition of datatypes  -->
+    <types>
+        <schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="test.soap.phone_book.xsd">
+            <element name="id">
+                <complexType>
+                    <all>
+                        <element name="value" type="int"/>
+                    </all>
+                </complexType>
+            </element>
+            <element name="name">
+                <complexType>
+                    <all>
+                        <element name="value" type="string"/>
+                    </all>
+                </complexType>
+            </element>
+            <element name="email">
+                <complexType>
+                    <all>
+                        <element name="value" type="string"/>
+                    </all>
+                </complexType>
+            </element>
+            <element name="phone">
+                <complexType>
+                    <all>
+                        <element name="value" type="string"/>
+                    </all>
+                </complexType>
+            </element>
+            <element name="address">
+                <complexType>
+                    <all>
+                        <element name="value" type="string"/>
+                    </all>
+                </complexType>
+            </element>
+            <element name="result">
+                <complexType>
+                    <all>
+                        <element name="value" type="int"/>
+                    </all>
+                </complexType>
+            </element>
+            <element name="contact">
+                <complexType>
+                    <all>
+                        <element name="value" type="int"/>
+                    </all>
+                </complexType>
+            </element>
+            <element name="contactList">
+                <complexType>
+                    <all>
+                        <element name="value" type="int"/>
+                    </all>
+                </complexType>
+            </element>
+            <element name="void">
+                <complexType>
+                    <sequence/>
+                </complexType>
+            </element>
+        </schema>
+    </types>
+    <!--  response messages  -->
+    <message name="returns_result">
+        <part name="result" type="xsd:result"/>
+    </message>
+    <message name="returns_contact">
+        <part name="contact" type="xsd:contact"/>
+    </message>
+    <message name="returns_contactList">
+        <part name="contactList" type="xsd:contactList"/>
+    </message>
+    <!--  request messages  -->
+    <message name="insert">
+        <part name="name" type="xsd:name"/>
+        <part name="email" type="xsd:email"/>
+        <part name="phone" type="xsd:phone"/>
+        <part name="address" type="xsd:address"/>
+    </message>
+    <message name="update">
+        <part name="name" type="xsd:name"/>
+        <part name="email" type="xsd:email"/>
+        <part name="phone" type="xsd:phone"/>
+        <part name="address" type="xsd:address"/>
+    </message>
+    <message name="delete">
+        <part name="id" type="xsd:id"/>
+    </message>
+    <message name="getById">
+        <part name="id" type="xsd:id"/>
+    </message>
+    <message name="getByName">
+        <part name="name" type="xsd:name"/>
+    </message>
+    <message name="getAll">
+        <part name="void" type="xsd:void"/>
+    </message>
+    <!--  server's services  -->
+    <portType name="my SOAP phone book">
+        <operation name="insert">
+            <input message="tns:insert"/>
+            <output message="tns:returns_result"/>
+        </operation>
+        <operation name="update">
+            <input message="tns:update"/>
+            <output message="tns:returns_result"/>
+        </operation>
+        <operation name="delete">
+            <input message="tns:delete"/>
+            <output message="tns:returns_result"/>
+        </operation>
+        <operation name="getById">
+            <input message="tns:getById"/>
+            <output message="tns:returns_contact"/>
+        </operation>
+        <operation name="getByName">
+            <input message="tns:getByName"/>
+            <output message="tns:returns_contact"/>
+        </operation>
+        <operation name="getAll">
+            <input message="tns:getAll"/>
+            <output message="tns:returns_contactList"/>
+        </operation>
+    </portType>
+    <!--  server encoding  -->
+    <binding name="my SOAP phone book_webservices" type="tns:my SOAP phone book">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="insert">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#insert"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="update">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#update"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="delete">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#delete"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="getById">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#getById"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="getByName">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#getByName"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="getAll">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#getAll"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+    <!--  access to service provider  -->
+    <service name="test">
+        <port name="test_0" binding="my SOAP phone book_webservices">
+            <soap:address location="/server.php"/>
+        </port>
+    </service>
+</definitions>
