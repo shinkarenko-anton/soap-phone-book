@@ -26,6 +26,27 @@
 		<part name="parameters" element="tns:getGoodbyeResponse" />
 	</message>
 
+	<message name="getAllRequest">
+		<part name="parameters" element="tns:getAllRequest" />
+	</message>
+
+	<message name="getAllResponse">
+		<part name="parameters" element="tns:getAllResponse" />
+	</message>
+
+    <message name = "insertDataRequest">
+        <part name = "name" type = "xsd:string"/>
+        <part name = "email" type = "xsd:string"/>
+        <part name = "phone" type = "xsd:string"/>
+        <part name = "address" type = "xsd:string"/>
+    </message>
+
+    <message name = "insertDataResponse">
+        <part name = "count" type = "xsd:integer"/>
+    </message>
+
+
+
 	<!-- PORT TYPE -->
 
 	<portType name="SimpleHello">
@@ -38,6 +59,17 @@
 			<wsdl:input message="getGoodbyeRequest"></wsdl:input>
 			<wsdl:output message="getGoodbyeResponse"></wsdl:output>
 		</wsdl:operation>
+
+		<wsdl:operation name="getAll">
+			<wsdl:input message="getAllRequest"></wsdl:input>
+			<wsdl:output message="getAllResponse"></wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="insertData">
+			<wsdl:input message="insertDataRequest"></wsdl:input>
+			<wsdl:output message="insertDataResponse"></wsdl:output>
+		</wsdl:operation>
+
 	</portType>
 
 	<!-- BINDINGS -->
@@ -65,7 +97,28 @@
 				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
 			</output>
 		</operation>
-		
+
+		<operation name='getAll'>
+			<soap:operation soapAction='getAll' />
+			<input>
+				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
+			</input>
+			<output>
+				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
+			</output>
+		</operation>
+
+		<operation name='insertData'>
+			<soap:operation soapAction='insertData' />
+			<input>
+				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
+			</input>
+			<output>
+				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
+			</output>
+		</operation>
+
+
 	</binding>
 
 	<!-- SERVICE -->

@@ -15,8 +15,13 @@ function autoloader($class){
 
 // don't cache WSDL file
 ini_set("soap.wsdl_cache_enabled","0");
-
-$server = new SoapServer("simple.wsdl");
+$options = array(
+    "trace"  => true,
+    "soap_version" => SOAP_1_2,
+    "connection_timeout"    => 30,
+    "uri"      => "http://schemas.xmlsoap.org/wsdl/soap/"
+);
+$server = new SoapServer("simple.wsdl", $options);
 
 $server->setClass('Storage');
 

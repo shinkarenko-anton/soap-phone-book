@@ -3,56 +3,84 @@
 class Storage
 {
     const USERNAME = "root";
-    const PASSWORD = "";
+    const PASSWORD = '';
     const HOST = "localhost";
     const DB = "soap-phone-book";
+    public $connection;
+    public $connError;
 
-    private function getConnection()
+    public function __construct()
     {
         $username = self::USERNAME;
         $password = self::PASSWORD;
         $host = self::HOST;
         $db = self::DB;
-        $connection = new PDO("mysql:dbname=$db;host=$host", $username, $password);
-        return $connection;
+        try {
+            $this->connection = new PDO("mysql:host=$host;dbname=$db", $username, $password);
+        } catch (PDOException $e) {
+            //$this->connection = null;
+            $this->connError = $e->getMessage();
+        }
     }
 
-    private function query($sql, $args)
+    public function insertData($name, $email, $phone, $address)
     {
-        $connection = $this->getConnection();
-        $stmt = $connection->prepare($sql);
-        $stmt->execute($args);
-        return $stmt;
+        /*$name = $request['name'];
+        $email = $request['email'];
+        $phone = $request['phone'];
+        $address = $request['address'];*/
+
+        $sql = "INSERT INTO `phone-book` (`name`, `email`, `phone`, `address`) VALUES (:name, :email, :phone, :address)";
+
+        $statement = $this->connection->prepare($sql);
+
+        $statement->bindValue(':name', $name);
+        $statement->bindValue(':email', $email);
+        $statement->bindValue(':phone', $phone);
+        $statement->bindValue(':address', $address);
+
+        $inserted = $statement->execute();
+        return $inserted;
     }
 
-    public function insert($name, $email, $phone, $address) {
-
-    }
-
-    public function delete($id) {
-
-    }
-
-    public function update($name, $email, $phone, $address) {
-
-    }
-
-    public function getById($id) {
-
-    }
-
-    public function getByName($name) {
+    public function delete($id)
+    {
 
     }
 
-    public function getHello($request){
+    public function update($name, $email, $phone, $address)
+    {
+
+    }
+
+    public function getById($id)
+    {
+
+    }
+
+    public function getAll()
+    {
+        $sth = $this->connection->prepare("SELECT * FROM `phone-book`");
+        $sth->execute();
+        $result = $sth->fetchAll();
+        return $result;
+    }
+
+    public function getByName($name)
+    {
+
+    }
+
+    public function getHello($request)
+    {
         //in reality, this data would be coming from a database
         $string = "Hello " . serialize($request);
         return $string;
 
     }
 
-    public function getGoodbye($request){
+    public function getGoodbye($request)
+    {
         //in reality, this data would be coming from a database
         $string = "Goodbye " . serialize($request);
         return $string;
