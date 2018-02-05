@@ -23,6 +23,13 @@ class Storage
         }
     }
 
+    /**
+     * @param $name
+     * @param $email
+     * @param $phone
+     * @param $address
+     * @return bool
+     */
     public function insertData($name, $email, $phone, $address)
     {
         $sql = "INSERT INTO `phone-book` (`name`, `email`, `phone`, `address`) VALUES (:name, :email, :phone, :address)";
@@ -38,6 +45,10 @@ class Storage
         return $inserted;
     }
 
+    /**
+     * @param $id
+     * @return bool
+     */
     public function delete($id)
     {
         $sql = "DELETE FROM `phone-book` WHERE `id` = :id";
@@ -50,6 +61,14 @@ class Storage
         return $result;
     }
 
+    /**
+     * @param $id
+     * @param $name
+     * @param $email
+     * @param $phone
+     * @param $address
+     * @return bool
+     */
     public function update($id, $name, $email, $phone, $address)
     {
         $sql = "UPDATE `phone-book` SET `name` = :name, `email` = :email, `phone` = :phone, `address` = :address WHERE `id` = :id";
@@ -66,6 +85,10 @@ class Storage
         return $inserted;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function getById($id)
     {
         $sth = $this->connection->prepare("SELECT * FROM `phone-book` WHERE `id` = :id");
@@ -76,6 +99,9 @@ class Storage
 
     }
 
+    /**
+     * @return array
+     */
     public function getAll()
     {
         $sth = $this->connection->prepare("SELECT * FROM `phone-book`");
@@ -86,21 +112,10 @@ class Storage
 
     public function getByName($name)
     {
-
-    }
-
-    public function getHello($request)
-    {
-        //in reality, this data would be coming from a database
-        $string = "Hello " . serialize($request);
-        return $string;
-
-    }
-
-    public function getGoodbye($request)
-    {
-        //in reality, this data would be coming from a database
-        $string = "Goodbye " . serialize($request);
-        return $string;
+        $sth = $this->connection->prepare("SELECT * FROM `phone-book` WHERE `name` like :name");
+        $sth->bindValue(':name', '%'.$name.'%');
+        $sth->execute();
+        $result = $sth->fetchAll();
+        return $result;
     }
 }
