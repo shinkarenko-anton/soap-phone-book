@@ -10,22 +10,6 @@
 
 	<!-- MESSAGES -->
 
-	<message name="getHelloRequest">
-		<part name="parameters" element="tns:getHelloRequest" />
-	</message>
-
-	<message name="getHelloResponse">
-		<part name="parameters" element="tns:getHelloResponse" />
-	</message>
-
-	<message name="getGoodbyeRequest">
-		<part name="parameters" element="tns:getGoodbyeRequest" />
-	</message>
-
-	<message name="getGoodbyeResponse">
-		<part name="parameters" element="tns:getGoodbyeResponse" />
-	</message>
-
 	<message name="getAllRequest">
 		<part name="parameters" element="tns:getAllRequest" />
 	</message>
@@ -45,20 +29,39 @@
         <part name = "count" type = "xsd:integer"/>
     </message>
 
+    <message name = "deleteRequest">
+        <part name = "id" type = "xsd:integer"/>
+    </message>
+
+    <message name = "deleteResponse">
+        <part name = "count" type = "xsd:integer"/>
+    </message>
+
+    <message name = "getByIdRequest">
+        <part name = "id" type = "xsd:integer"/>
+    </message>
+
+    <message name = "getByIdResponse">
+        <part name="parameters" element="tns:getByIdResponse" />
+    </message>
+
+    <message name = "updateRequest">
+        <part name = "id" type = "xsd:integer"/>
+        <part name = "name" type = "xsd:string"/>
+        <part name = "email" type = "xsd:string"/>
+        <part name = "phone" type = "xsd:string"/>
+        <part name = "address" type = "xsd:string"/>
+    </message>
+
+    <message name = "updateResponse">
+        <part name = "count" type = "xsd:integer"/>
+    </message>
+
 
 
 	<!-- PORT TYPE -->
 
 	<portType name="SimpleHello">
-		<operation name='getHello'>
-			<input message='tns:getHelloRequest' />
-			<output message='tns:getHelloResponse' />
-		</operation>
-
-		<wsdl:operation name="getGoodbye">
-			<wsdl:input message="getGoodbyeRequest"></wsdl:input>
-			<wsdl:output message="getGoodbyeResponse"></wsdl:output>
-		</wsdl:operation>
 
 		<wsdl:operation name="getAll">
 			<wsdl:input message="getAllRequest"></wsdl:input>
@@ -70,6 +73,21 @@
 			<wsdl:output message="insertDataResponse"></wsdl:output>
 		</wsdl:operation>
 
+		<wsdl:operation name="delete">
+			<wsdl:input message="deleteRequest"></wsdl:input>
+			<wsdl:output message="deleteResponse"></wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="getById">
+			<wsdl:input message="getByIdRequest"></wsdl:input>
+			<wsdl:output message="getByIdResponse"></wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="update">
+			<wsdl:input message="updateRequest"></wsdl:input>
+			<wsdl:output message="updateResponse"></wsdl:output>
+		</wsdl:operation>
+
 	</portType>
 
 	<!-- BINDINGS -->
@@ -77,26 +95,6 @@
 	<binding name="SimpleHelloPortBinding" type="tns:SimpleHello">
 
 		<soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http' />
-
-		<operation name='getHello'>
-			<soap:operation soapAction='getHello' />
-			<input>
-				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
-			</input>
-			<output>
-				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
-			</output>
-		</operation>
-
-		<operation name='getGoodbye'>
-			<soap:operation soapAction='getGoodbye' />
-			<input>
-				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
-			</input>
-			<output>
-				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
-			</output>
-		</operation>
 
 		<operation name='getAll'>
 			<soap:operation soapAction='getAll' />
@@ -118,6 +116,35 @@
 			</output>
 		</operation>
 
+		<operation name='delete'>
+			<soap:operation soapAction='delete' />
+			<input>
+				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
+			</input>
+			<output>
+				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
+			</output>
+		</operation>
+
+		<operation name='getById'>
+			<soap:operation soapAction='getById' />
+			<input>
+				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
+			</input>
+			<output>
+				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
+			</output>
+		</operation>
+
+		<operation name='update'>
+			<soap:operation soapAction='update' />
+			<input>
+				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
+			</input>
+			<output>
+				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
+			</output>
+		</operation>
 
 	</binding>
 
@@ -125,7 +152,7 @@
 
 	<service name="SimpleHelloService">
 		<port name="SimpleHelloPort" binding="tns:SimpleHelloPortBinding">
-			<soap:address location='http://soap-phone-book/server.php' />
+			<soap:address location='' />
 		</port>
 	</service>
 

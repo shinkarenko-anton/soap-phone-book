@@ -18,7 +18,7 @@ if (isset($_POST['ADD_STUDENT'])) {
 //geting edit items
 if (isset($_REQUEST['edit'])) {
     $id = $_GET['id'];
-    $data = $client->__soapCall("getById", array($id));
+    $data = $client->getById($id);
 }
 
 //updateing data
@@ -26,7 +26,9 @@ if (isset($_POST['UPDATE_STUDENT'])) {
     $id = $_POST['id'];
     $name = $_POST['name'];
     $email = $_POST['email'];
-    if ($client->__soapCall("update", array($id, $name, $email))) {
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+    if ($client->update($id, $name, $email, $phone, $address)) {
         $msg = array('1', "Student updated successfully.");
     } else {
         $msg = array('0', "Sorry, student updating failed.");
@@ -39,7 +41,7 @@ if (isset($_POST['UPDATE_STUDENT'])) {
 //deleting data
 if (isset($_REQUEST['delete'])) {
     $id = $_GET['id'];
-    if ($client->__soapCall("delete", array($id))) {
+    if ($client->delete($id)) {
         $msg = array('1', "Student deleted successfully.");
     } else {
         $msg = array('0', "Sorry, student deleting failed.");
@@ -82,11 +84,15 @@ $isEdit = isset($_REQUEST['edit']) ? true : false;
         </form>
 
         <form style="display:<?php echo $isEdit ? 'block' : 'none'; ?>" action="" method="post">
-            <input type="hidden" name="id" value="<?php echo isset($data) ? $data['rowid'] : ''; ?>">
+            <input type="hidden" name="id" value="<?php echo isset($data) ? $data['id'] : ''; ?>">
             <input type="text" name='name' value="<?php echo isset($data) ? $data['name'] : ''; ?>"
-                   placeholder="Enter name">
+                   placeholder="Enter name"><br>
             <input type="email" name='email' value="<?php echo isset($data) ? $data['email'] : ''; ?>"
-                   placeholder="Enter email" required="">
+                   placeholder="Enter email" required=""><br>
+            <input type="text" name='phone' value="<?php echo isset($data) ? $data['phone'] : ''; ?>"
+                   placeholder="Enter phone"><br>
+            <input type="text" name='address' value="<?php echo isset($data) ? $data['address'] : ''; ?>"
+                   placeholder="Enter address"><br>
             <input type="submit" name="UPDATE_STUDENT" value="Save">
         </form>
 
@@ -99,6 +105,8 @@ $isEdit = isset($_REQUEST['edit']) ? true : false;
             <td>ID</td>
             <td>Name</td>
             <td>Email</td>
+            <td>Phone</td>
+            <td>Address</td>
             <td>Action</td>
         </tr>
         <?php
@@ -106,12 +114,14 @@ $isEdit = isset($_REQUEST['edit']) ? true : false;
         foreach ($result as $row) { ?>
 
             <tr>
-                <td><?php echo $row['rowid']; ?></td>
+                <td><?php echo $row['id']; ?></td>
                 <td><?php echo $row['name']; ?></td>
                 <td><?php echo $row['email']; ?></td>
+                <td><?php echo $row['phone']; ?></td>
+                <td><?php echo $row['address']; ?></td>
                 <td>
-                    <a href="?edit=true&id=<?php echo $row['rowid']; ?>">Edit</a> |
-                    <a href="?delete=true&id=<?php echo $row['rowid']; ?>" onclick="return confirm('Are you sure?');">Delete</a>
+                    <a href="?edit=true&id=<?php echo $row['id']; ?>">Edit</a> |
+                    <a href="?delete=true&id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure?');">Delete</a>
                 </td>
             </tr>
         <?php } ?>
