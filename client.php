@@ -1,5 +1,11 @@
 <?php
 
+spl_autoload_register('autoloader');
+
+function autoloader($class){
+    include("$class.php");
+}
+
 function server_url(){
     $server ="";
 
@@ -22,29 +28,8 @@ try{
         "uri"      => server_url()."server.php",
         'location' => server_url()."server.php"
     );
-	$client = new SoapClient("simple.wsdl", $options);
+	$client = new MySoapClient("simple.wsdl", $options);
 
-	$response = [];
-
-	$request = [
-	    'name' => 'john',
-        'email' => '123@qaz.com',
-        'phone' => '12345',
-        'address' => 'ffddee 123',
-        ];
-
-	//$response['helloResponse'] = $client->getHello($request);
-	
-	//$response['goodbyeResponse'] = $client->getGoodbye($request);
-    //$response['all'] = $client->getAll();
-    //$response['insert'] = $client->insertData($request);
-
-
-	
-	/*print "<pre>";
-		print_r($response);
-	print "</pre>";
-	*/
 } catch(SoapFault $e){
 	
 	print_r($e);
