@@ -2,8 +2,8 @@
 
 <definitions name='SimpleHelloService'
 
-	targetNamespace='http://www.modernfidelity.co.uk/SimpleService'
-	xmlns:tns=' http://www.modernfidelity.co.uk/SimpleService' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/'
+	targetNamespace='http://soap-phone-book/PhoneBook'
+	xmlns:tns='http://soap-phone-book/PhoneBook' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/'
 	xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soapenc='http://schemas.xmlsoap.org/soap/encoding/'
 	xmlns:wsdl='http://schemas.xmlsoap.org/wsdl/' xmlns='http://schemas.xmlsoap.org/wsdl/'>
 
