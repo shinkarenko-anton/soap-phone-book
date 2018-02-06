@@ -76,6 +76,14 @@
         <part name="parameters" element="tns:getByIdResponse" />
     </message>
 
+    <message name = "getByNameRequest">
+        <part name = "name" type = "xsd:string"/>
+    </message>
+
+    <message name = "getByNameResponse">
+        <part name="parameters" element="tns:getByIdResponse" />
+    </message>
+
     <message name = "updateRequest">
         <part name = "id" type = "xsd:integer"/>
         <part name = "name" type = "xsd:string"/>
@@ -115,6 +123,11 @@
 		<wsdl:operation name="getById">
 			<wsdl:input message="getByIdRequest"></wsdl:input>
 			<wsdl:output message="getByIdResponse"></wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="getByName">
+			<wsdl:input message="getByNameRequest"></wsdl:input>
+			<wsdl:output message="getByNameResponse"></wsdl:output>
 		</wsdl:operation>
 
 		<wsdl:operation name="update">
@@ -162,6 +175,16 @@
 
 		<operation name='getById'>
 			<soap:operation soapAction='getById' />
+			<input>
+				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
+			</input>
+			<output>
+				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
+			</output>
+		</operation>
+
+		<operation name='getByName'>
+			<soap:operation soapAction='getByName' />
 			<input>
 				<soap:body use='encoded' namespace='http://www.modernfidelity.co.uk' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' />
 			</input>

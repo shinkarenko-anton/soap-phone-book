@@ -75,6 +75,19 @@ $isEdit = isset($_REQUEST['edit']) ? true : false;
 <body>
 <div style="margin: 0 auto; width: 800px;">
     <div>
+
+
+        <form style="display:<?php echo $isEdit ? 'none' : 'block'; ?>" action="" method="post">
+            <input
+                    type="text"
+                    name='search_str'
+                    placeholder="Enter name"
+                    value="<?php echo isset($_POST['search_str']) ? $_POST['search_str'] : ''; ?>"
+            ><a href="/"> Clear</a>
+            <br>
+            <input type="submit" name="SEARCH_STUDENT" value="Search">
+        </form>
+
         <form style="display:<?php echo $isEdit ? 'none' : 'block'; ?>" action="" method="post">
             <input type="text" name='name' placeholder="Enter name"><br>
             <input type="string" name='email' placeholder="Enter email" required=""><br>
@@ -110,7 +123,15 @@ $isEdit = isset($_REQUEST['edit']) ? true : false;
             <td>Action</td>
         </tr>
         <?php
-        $result = $client->getAll();
+
+        //search data
+        if (isset($_POST['SEARCH_STUDENT'])) {
+            $name = $_POST['search_str'];
+            $result = $client->getByName($name);
+        } else {
+            $result = $client->getAll();
+        }
+
         foreach ($result as $row) { ?>
 
             <tr>
