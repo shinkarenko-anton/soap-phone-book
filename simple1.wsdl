@@ -1,0 +1,221 @@
+<wsdl:definitions xmlns:tns="http://wan24.de/test/phpwsdl2/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://wan24.de/test/phpwsdl2/">
+    <wsdl:types>
+        <s:schema targetNamespace="http://wan24.de/test/phpwsdl2/">
+            <s:complexType name="ComplexTypeDemo">
+                <s:annotation>
+                    <s:documentation>
+                        This is how to define a complex type f.e. - the class ComplexTypeDemo doesn't need to exists, but it would make it easier for you to return that complex type from a method
+                    </s:documentation>
+                </s:annotation>
+                <s:sequence>
+                    <s:element minOccurs="1" maxOccurs="1" nillable="true" name="StringA" type="s:string">
+                        <s:annotation>
+                            <s:documentation>A string with a value</s:documentation>
+                        </s:annotation>
+                    </s:element>
+                    <s:element minOccurs="1" maxOccurs="1" nillable="true" name="StringB" type="s:string">
+                        <s:annotation>
+                            <s:documentation>A string with a NULL value</s:documentation>
+                        </s:annotation>
+                    </s:element>
+                    <s:element minOccurs="1" maxOccurs="1" nillable="false" name="Integer" type="s:int">
+                        <s:annotation>
+                            <s:documentation>An integer</s:documentation>
+                        </s:annotation>
+                    </s:element>
+                    <s:element minOccurs="1" maxOccurs="1" nillable="false" name="Boolean" type="s:boolean">
+                        <s:annotation>
+                            <s:documentation>A boolean</s:documentation>
+                        </s:annotation>
+                    </s:element>
+                    <s:element minOccurs="1" maxOccurs="1" nillable="true" name="Enum" type="tns:DemoEnum">
+                        <s:annotation>
+                            <s:documentation>An enumeration</s:documentation>
+                        </s:annotation>
+                    </s:element>
+                </s:sequence>
+            </s:complexType>
+            <s:complexType name="ComplexTypeDemoB">
+                <s:annotation>
+                    <s:documentation>
+                        This complex type inherits all properties of ComplexTypeDemo
+                    </s:documentation>
+                </s:annotation>
+                <s:complexContent>
+                    <s:extension base="tns:ComplexTypeDemo">
+                        <s:sequence>
+                            <s:element minOccurs="1" maxOccurs="1" nillable="true" name="AdditionalString" type="s:string">
+                                <s:annotation>
+                                    <s:documentation>An additional string</s:documentation>
+                                </s:annotation>
+                            </s:element>
+                        </s:sequence>
+                    </s:extension>
+                </s:complexContent>
+            </s:complexType>
+            <s:complexType name="stringArray">
+                <s:annotation>
+                    <s:documentation>A string array type</s:documentation>
+                </s:annotation>
+                <s:complexContent>
+                    <s:restriction base="soapenc:Array">
+                        <s:attribute ref="soapenc:arrayType" wsdl:arrayType="s:string[]"/>
+                    </s:restriction>
+                </s:complexContent>
+            </s:complexType>
+            <s:complexType name="ComplexTypeDemoBArray">
+                <s:annotation>
+                    <s:documentation>An array of ComplexTypeDemoB</s:documentation>
+                </s:annotation>
+                <s:complexContent>
+                    <s:restriction base="soapenc:Array">
+                        <s:attribute ref="soapenc:arrayType" wsdl:arrayType="tns:ComplexTypeDemoB[]"/>
+                    </s:restriction>
+                </s:complexContent>
+            </s:complexType>
+            <s:complexType name="arrayOfInt">
+                <s:annotation>
+                    <s:documentation>An int array type</s:documentation>
+                </s:annotation>
+                <s:complexContent>
+                    <s:restriction base="soapenc:Array">
+                        <s:attribute ref="soapenc:arrayType" wsdl:arrayType="s:int[]"/>
+                    </s:restriction>
+                </s:complexContent>
+            </s:complexType>
+            <s:simpleType name="DemoEnum">
+                <s:annotation>
+                    <s:documentation>
+                        This is how to define an enumeration. You don't need the class DemoEnum - it's just to demonstrate how I handle enumerations in PHP.
+                    </s:documentation>
+                </s:annotation>
+                <s:restriction base="s:string">
+                    <s:enumeration value="ValueA"/>
+                    <s:enumeration value="ValueB"/>
+                    <s:enumeration value="ValueC"/>
+                </s:restriction>
+            </s:simpleType>
+            <s:complexType name="SoapFault">
+                <s:annotation>
+                    <s:documentation>This is the exception type for all methods</s:documentation>
+                </s:annotation>
+                <s:sequence>
+                    <s:element minOccurs="1" maxOccurs="1" nillable="true" name="message" type="s:string">
+                        <s:annotation>
+                            <s:documentation>The message</s:documentation>
+                        </s:annotation>
+                    </s:element>
+                    <s:element minOccurs="1" maxOccurs="1" nillable="false" name="code" type="s:int">
+                        <s:annotation>
+                            <s:documentation>The code</s:documentation>
+                        </s:annotation>
+                    </s:element>
+                    <s:element minOccurs="1" maxOccurs="1" nillable="true" name="file" type="s:string">
+                        <s:annotation>
+                            <s:documentation>The file name</s:documentation>
+                        </s:annotation>
+                    </s:element>
+                    <s:element minOccurs="1" maxOccurs="1" nillable="false" name="line" type="s:int">
+                        <s:annotation>
+                            <s:documentation>The line number</s:documentation>
+                        </s:annotation>
+                    </s:element>
+                </s:sequence>
+            </s:complexType>
+        </s:schema>
+    </wsdl:types>
+    <wsdl:message name="GetComplexTypeSoapIn"/>
+    <wsdl:message name="GetComplexTypeSoapOut">
+        <wsdl:part name="return" type="tns:ComplexTypeDemoB">
+            <s:documentation>The object</s:documentation>
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="GetComplexTypeException">
+        <wsdl:part name="fault" type="tns:SoapFault"/>
+    </wsdl:message>
+    <wsdl:message name="PrintComplexTypeSoapIn">
+        <wsdl:part name="obj" type="tns:ComplexTypeDemoB">
+            <s:documentation>The object</s:documentation>
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="PrintComplexTypeSoapOut">
+        <wsdl:part name="return" type="s:string">
+            <s:documentation>The result of print_r</s:documentation>
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="PrintComplexTypeException">
+        <wsdl:part name="fault" type="tns:SoapFault"/>
+    </wsdl:message>
+    <wsdl:message name="ComplexTypeArrayDemoSoapIn">
+        <wsdl:part name="arr" type="tns:ComplexTypeDemoBArray">
+            <s:documentation>A ComplexTypeDemoB array</s:documentation>
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="ComplexTypeArrayDemoSoapOut">
+        <wsdl:part name="return" type="tns:stringArray">
+            <s:documentation>The results of print_r</s:documentation>
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="ComplexTypeArrayDemoException">
+        <wsdl:part name="fault" type="tns:SoapFault"/>
+    </wsdl:message>
+    <wsdl:message name="SayHelloSoapIn">
+        <wsdl:part name="name" type="s:string">
+            <s:documentation>Some name (or an empty string)</s:documentation>
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="SayHelloSoapOut">
+        <wsdl:part name="return" type="s:string">
+            <s:documentation>Response string</s:documentation>
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="SayHelloException">
+        <wsdl:part name="fault" type="tns:SoapFault"/>
+    </wsdl:message>
+    <wsdl:message name="DemoMethodSoapIn"/>
+    <wsdl:message name="DemoMethodSoapOut"/>
+    <wsdl:message name="DemoMethodException">
+        <wsdl:part name="fault" type="tns:SoapFault"/>
+    </wsdl:message>
+
+    <wsdl:message name="getAllRequest1"/>
+    <wsdl:message name="getAllResponse1"/>
+
+    <message name="getAllRequest">
+        <part name="id" element="s:int" />
+    </message>
+
+    <message name="getAllResponse">
+        <part name="parameters" element="tns:getAllResponse" />
+    </message>
+    <wsdl:portType name="SoapDemoSoap">
+        <wsdl:operation name="getAll">
+            <wsdl:input message="getAllRequest"></wsdl:input>
+            <wsdl:output message="getAllResponse"></wsdl:output>
+            <wsdl:fault message="DemoMethodException">
+                <soap:fault name="DemoMethodException" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="SoapDemoSoap" type="tns:SoapDemoSoap">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+        <wsdl:operation name='getAll'>
+            <soap:operation soapAction='getAll' />
+            <wsdl:input>
+                <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://wan24.de/test/phpwsdl2/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://wan24.de/test/phpwsdl2/"/>
+            </wsdl:output>
+            <wsdl:fault name="DemoMethodException">
+                <soap:fault name="DemoMethodException" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://wan24.de/test/phpwsdl2/"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+    </wsdl:binding>
+    <wsdl:service name="SoapDemo">
+        <wsdl:port name="SoapDemoSoap" binding="tns:SoapDemoSoap">
+            <soap:address location="http://soap-phone-book/server.php"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
