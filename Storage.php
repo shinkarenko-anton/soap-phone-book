@@ -30,8 +30,12 @@ class Storage
      * @param $address
      * @return bool
      */
-    public function insertData($name, $email, $phone, $address)
+    public function insertData($data)
     {
+        $name = $data['name'];
+        $email = $data['email'];
+        $phone = $data['phone'];
+        $address = $data['address'];
         $sql = "INSERT INTO `phone-book` (`name`, `email`, `phone`, `address`) VALUES (:name, :email, :phone, :address)";
 
         $statement = $this->connection->prepare($sql);

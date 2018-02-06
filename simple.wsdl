@@ -7,16 +7,42 @@
 	xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soapenc='http://schemas.xmlsoap.org/soap/encoding/'
 	xmlns:wsdl='http://schemas.xmlsoap.org/wsdl/' xmlns='http://schemas.xmlsoap.org/wsdl/'>
 
+    <types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   targetNamespace="http://soap-phone-book/PhoneBook">
+            <xs:element name="setRecord">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="name" type="xs:string" minOccurs="23"/>
+                        <xs:element name="email" type="xs:string"/>
+                        <xs:element name="phone" type="xs:string"/>
+                        <xs:element name="address" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getQuoteResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="getQuoteReturn" type="xs:float"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </types>
 
 	<!-- MESSAGES -->
 
 	<message name="getAllRequest">
-		<part name="parameters" element="tns:getAllRequest" />
+		<part name="id" element="xsd:int" />
 	</message>
 
 	<message name="getAllResponse">
 		<part name="parameters" element="tns:getAllResponse" />
 	</message>
+
+    <wsdl:message name="GetComplexTypeException">
+        <wsdl:part name="fault" type="tns:SoapFault"/>
+    </wsdl:message>
 
     <message name = "insertDataRequest">
         <part name = "name" type = "xsd:string"/>
@@ -24,6 +50,11 @@
         <part name = "phone" type = "xsd:string"/>
         <part name = "address" type = "xsd:string"/>
     </message>
+
+    <wsdl:message name="msgSetRecord">
+        <wsdl:part name="obj" type="tns:setRecord">
+        </wsdl:part>
+    </wsdl:message>
 
     <message name = "insertDataResponse">
         <part name = "count" type = "xsd:integer"/>
@@ -69,8 +100,11 @@
 		</wsdl:operation>
 
 		<wsdl:operation name="insertData">
-			<wsdl:input message="insertDataRequest"></wsdl:input>
+			<wsdl:input message="msgSetRecord"></wsdl:input>
 			<wsdl:output message="insertDataResponse"></wsdl:output>
+            <wsdl:fault message="GetComplexTypeException" name="InsertError">
+                <soap:fault name="GetComplexTypeException" use="literal"/>
+            </wsdl:fault>
 		</wsdl:operation>
 
 		<wsdl:operation name="delete">

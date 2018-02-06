@@ -7,7 +7,7 @@ if (isset($_POST['ADD_STUDENT'])) {
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
-    if ($client->insertData($name, $email, $phone, $address)) {
+    if ($client->insertData($_POST)) {
         $msg = array('1', "Student added successfully.");
     } else {
         $msg = array('0', "Sorry, student adding failed.");
