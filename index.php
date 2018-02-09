@@ -2,15 +2,15 @@
 include 'client.php';
 
 //inserting data
-if (isset($_POST['ADD_STUDENT'])) {
+if (isset($_POST['ADD_CONTACT'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
     if ($client->insertData($_POST)) {
-        $msg = array('1', "Student added successfully.");
+        $msg = array('1', "Contact added successfully.");
     } else {
-        $msg = array('0', "Sorry, student adding failed.");
+        $msg = array('0', "Sorry, contact adding failed.");
     }
     $_SESSION['msg'] = $msg;
 }
@@ -22,16 +22,16 @@ if (isset($_REQUEST['edit'])) {
 }
 
 //updateing data
-if (isset($_POST['UPDATE_STUDENT'])) {
+if (isset($_POST['UPDATE_CONTACT'])) {
     $id = $_POST['id'];
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
     if ($client->update($id, $name, $email, $phone, $address)) {
-        $msg = array('1', "Student updated successfully.");
+        $msg = array('1', "Contact updated successfully.");
     } else {
-        $msg = array('0', "Sorry, student updating failed.");
+        $msg = array('0', "Sorry, contact updating failed.");
     }
     $_SESSION['msg'] = $msg;
     header("Location: /");
@@ -42,9 +42,9 @@ if (isset($_POST['UPDATE_STUDENT'])) {
 if (isset($_REQUEST['delete'])) {
     $id = $_GET['id'];
     if ($client->delete($id)) {
-        $msg = array('1', "Student deleted successfully.");
+        $msg = array('1', "Contact deleted successfully.");
     } else {
-        $msg = array('0', "Sorry, student deleting failed.");
+        $msg = array('0', "Sorry, contact deleting failed.");
     }
     $_SESSION['msg'] = $msg;
 
@@ -61,7 +61,7 @@ $isEdit = isset($_REQUEST['edit']) ? true : false;
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CRUD with Sqlite</title>
+    <title>SOAP phone book</title>
     <style type="text/css">
         .red {
             color: red;
@@ -85,7 +85,7 @@ $isEdit = isset($_REQUEST['edit']) ? true : false;
                     value="<?php echo isset($_POST['search_str']) ? $_POST['search_str'] : ''; ?>"
             ><a href="/"> Clear</a>
             <br>
-            <input type="submit" name="SEARCH_STUDENT" value="Search">
+            <input type="submit" name="SEARCH_CONTACT" value="Search">
         </form>
 
         <form style="display:<?php echo $isEdit ? 'none' : 'block'; ?>" action="" method="post">
@@ -93,7 +93,7 @@ $isEdit = isset($_REQUEST['edit']) ? true : false;
             <input type="string" name='email' placeholder="Enter email" required=""><br>
             <input type="text" name='phone' placeholder="Enter phone" required=""><br>
             <input type="test" name='address' placeholder="Enter address" required=""><br>
-            <input type="submit" name="ADD_STUDENT" value="Add">
+            <input type="submit" name="ADD_CONTACT" value="Add">
         </form>
 
         <form style="display:<?php echo $isEdit ? 'block' : 'none'; ?>" action="" method="post">
@@ -106,7 +106,7 @@ $isEdit = isset($_REQUEST['edit']) ? true : false;
                    placeholder="Enter phone"><br>
             <input type="text" name='address' value="<?php echo isset($data) ? $data['address'] : ''; ?>"
                    placeholder="Enter address"><br>
-            <input type="submit" name="UPDATE_STUDENT" value="Save">
+            <input type="submit" name="UPDATE_CONTACT" value="Save">
         </form>
 
         <?php if (isset($_SESSION['msg']) && !empty($_SESSION['msg'])) { ?>
@@ -125,7 +125,7 @@ $isEdit = isset($_REQUEST['edit']) ? true : false;
         <?php
 
         //search data
-        if (isset($_POST['SEARCH_STUDENT'])) {
+        if (isset($_POST['SEARCH_CONTACT'])) {
             $name = $_POST['search_str'];
             $result = $client->getByName($name);
         } else {
